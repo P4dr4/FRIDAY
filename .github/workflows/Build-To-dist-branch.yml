@@ -37,6 +37,7 @@ jobs:
     - name: Deploy to dist branch
       run: |
         git checkout -b dist || git checkout dist
+        git pull --rebase origin dist || true
         git add -f dist/
         git commit -m 'Deploy to dist branch'
         git push -u origin dist
