@@ -7,7 +7,7 @@ on:
       - development
 
 jobs:
-  build:
+  build-to-dist-branch:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,4 +37,4 @@ jobs:
         git checkout -b dist || git checkout dist
         git add -f dist/
         git commit -m 'Deploy to dist branch'
-        git push
+        git push -u origin dist
