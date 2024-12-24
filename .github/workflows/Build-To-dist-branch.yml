@@ -27,11 +27,6 @@ jobs:
     - name: Build Angular app
       run: npm run build -- --output-path=dist
 
-    - name: Flatten dist folder
-      run: |
-        mv dist/my-app/* dist
-        rm -rf dist/my-app
-
     - name: Set up GitHub authentication
       env:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN_DEPLOY_PAGES }}
@@ -44,8 +39,11 @@ jobs:
         git checkout dist || git checkout -b dist
         git fetch origin
         git reset --hard origin/dist || true
+        ls -la
         rm -rf ./*
+        ls -la
         git add -f dist/
         mv dist/index.html ./
+        ls -la
         git commit -m 'Deploy to dist branch'
         git push -f origin dist
