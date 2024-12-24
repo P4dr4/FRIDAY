@@ -1,0 +1,43 @@
+name: Build and Deploy to dist
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  build-to-dist-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build Angular app
+      run: npm run build --prod
+
+    - name: Set up GitHub authentication
+      env:
+        GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN_DEPLOY_PAGES }}
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Deploy to dist branch
+      run: |
+        git checkout -b dist || git checkout dist
+        git pull --rebase origin dist || true
+        git add -f dist/
+        git commit -m 'Deploy to dist branch'
+        git push -u origin dist
