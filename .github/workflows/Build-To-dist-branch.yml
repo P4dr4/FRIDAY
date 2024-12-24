@@ -27,6 +27,11 @@ jobs:
     - name: Build Angular app
       run: npm run build -- --output-path=dist
 
+    - name: Flatten dist folder
+      run: |
+        mv dist/my-app/* dist
+        rm -rf dist/my-app
+
     - name: Set up GitHub authentication
       env:
         GITHUB_TOKEN: ${{ secrets.SECRET_TOKEN_DEPLOY_PAGES }}
