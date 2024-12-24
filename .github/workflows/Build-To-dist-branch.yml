@@ -38,6 +38,8 @@ jobs:
       run: |
         git checkout -b dist || git checkout dist
         git pull --rebase origin dist || true
+        rm -rf ./*
         git add -f dist/
+        mv  dist/index.html ./
         git commit -m 'Deploy to dist branch'
         git push -u origin dist
