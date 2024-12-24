@@ -34,12 +34,13 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-    - name: Deploy to dist branch
+    - name: Deploy to dist branch for GitHub Pages
       run: |
-        git checkout -b dist || git checkout dist
-        git pull --rebase origin dist || true
+        git checkout dist || git checkout -b dist
+        git fetch origin
+        git reset --hard origin/dist || true
         rm -rf ./*
         git add -f dist/
-        mv  dist/index.html ./
+        mv dist/index.html ./
         git commit -m 'Deploy to dist branch'
-        git push -u origin dist
+        git push -f origin dist
