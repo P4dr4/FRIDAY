@@ -43,6 +43,13 @@ jobs:
         git fetch origin
         git reset --hard origin/dist || true
         find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} \;
+        # Adjust dist branch to have only the buildedfiles on it's root directory
+        rm -rf *
+        mv ../temp-dist/* .
+        mv browser/* .
+        mv server/* .
+        rm -rf browser server
+        git add .
         cp -r ../temp-dist/* .
         git add .
         git commit -m 'Deploy to dist branch'
